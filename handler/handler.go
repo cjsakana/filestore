@@ -250,3 +250,6 @@ func TryFastUploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+func ()  {
+	
+}
