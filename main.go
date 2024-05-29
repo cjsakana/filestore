@@ -16,7 +16,7 @@ func main() {
 	http.HandleFunc("/file/update", handler.FileMetaUpdateHandler)
 
 	http.HandleFunc("/user/signup", handler.SignupHandler)
-	http.HandleFunc("POST /user/signin", handler.SignInHandler)
+	http.HandleFunc("/user/signin", handler.SignInHandler)
 	http.HandleFunc("/user/info", handler.HTTPInterceptor(handler.UserInfoHandler))
 
 	err := http.ListenAndServe(":8080", nil)
