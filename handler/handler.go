@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"filestore-serve/db"
 	"filestore-serve/meta"
+	"filestore-serve/store/ceph"
 	"filestore-serve/util"
 	"fmt"
 	"io"
@@ -61,6 +62,13 @@ func UploadHandler(w http.ResponseWriter, r *http.Request) {
 		// 从头开始计算 sha1 值
 		fileMeta.FileSha1 = util.FileSha1(newFile)
 		fmt.Println(fileMeta.FileSha1)
+
+		// 同时将文件写入ceph存储
+		client := ceph.GetCephConn()
+		key := "/ceph/" + fileMeta.FileSha1
+		ceph.UploadFile(client, "userfile", key, fileMeta.Location)
+		fileMeta.Location = key
+
 		// 保存到fileMetas中
 		//meta.UpdateFileMeta(fileMeta)
 		// 保存到MySQL中
